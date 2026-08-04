@@ -14,23 +14,20 @@ import jakarta.persistence.Id;
  * @author digma
  */
 @Entity
-public class Produto {
+public class Categoria {
+    
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String nome;
-    private long id_categoria;
-    private long saldo;
+    private String categoria;
 
-    public Produto() {
+    public Categoria() {
     }
 
-    public Produto(long id, String nome, long id_categoria, long saldo) {
+    public Categoria(long id, String categoria) {
         this.id = id;
-        this.nome = nome;
-        this.id_categoria = id_categoria;
-        this.saldo = saldo;
+        this.categoria = categoria;
     }
 
     public long getId() {
@@ -41,34 +38,18 @@ public class Produto {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public long getId_categoria() {
-        return id_categoria;
-    }
-
-    public void setId_categoria(long id_categoria) {
-        this.id_categoria = id_categoria;
-    }
-
-    public long getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(long saldo) {
-        this.saldo = saldo;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
+        int hash = 7;
+        hash = 37 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 
@@ -83,12 +64,10 @@ public class Produto {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Produto other = (Produto) obj;
+        final Categoria other = (Categoria) obj;
         return this.id == other.id;
     }
     
     
-    
-        
     
 }
