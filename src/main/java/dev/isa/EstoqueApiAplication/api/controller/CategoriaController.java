@@ -6,10 +6,12 @@ package dev.isa.EstoqueApiAplication.api.controller;
 
 import dev.isa.EstoqueApiAplication.domain.model.Categoria;
 import dev.isa.EstoqueApiAplication.domain.model.Produto;
+import dev.isa.EstoqueApiAplication.domain.repository.CategoriaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,17 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CategoriaController {
 
-    @PersistenceContext
-    private EntityManager manager;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+    //List<Categoria> listaCategoria;
 
-    List<Categoria> listaCategoria;
-
-    @GetMapping("/categoria")
+    @GetMapping("/Categoria")
     public List<Categoria> listas() {
 
-        listaCategoria = new ArrayList<Categoria>();
-
-        return listaCategoria;
-
+        return categoriaRepository.findAll();
     }
 }
