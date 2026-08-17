@@ -8,8 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 /**
  *
@@ -25,9 +26,14 @@ public class Produto {
     @NotBlank
     private String nome;
 
-    
+    @NotNull
     private long id_categoria;
-    private long saldo;
+    @NotNull
+    private Double saldo = 0.0;
+
+    public void atualizaSaldo(Double qtd) {
+        this.saldo = this.saldo.add(BigDecimal.valueOf(qtd));
+    }
 
     public Produto() {
     }

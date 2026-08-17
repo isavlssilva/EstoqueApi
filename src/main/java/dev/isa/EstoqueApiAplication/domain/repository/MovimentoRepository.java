@@ -4,9 +4,9 @@
  */
 package dev.isa.EstoqueApiAplication.domain.repository;
 
-import dev.isa.EstoqueApiAplication.domain.model.Produto;
+import dev.isa.EstoqueApiAplication.domain.model.Movimento;
+import java.util.Date;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,10 +14,12 @@ import org.springframework.stereotype.Repository;
  * @author digma
  */
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+public interface MovimentoRepository {
 
-    List<Produto> findByNome(String nome);
+    List<Movimento> findById(Long id);
 
-    List<Produto> findByNomeContaining(String nome);
+    List<Movimento> findByDate(Date data_movto);
+
+    List<Movimento> findByQtd(Long qtd);
 
 }
