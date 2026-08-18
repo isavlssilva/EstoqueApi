@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -27,10 +29,13 @@ public class Produto {
     private String nome;
 
     @NotNull
+    @JoinColumn(name = "id_categoria")
     private long id_categoria;
-    @NotNull
-    private Double saldo = 0.0;
 
+    @NotNull
+    private BigDecimal saldo;
+
+    @Transactional
     public void atualizaSaldo(Double qtd) {
         this.saldo = this.saldo.add(BigDecimal.valueOf(qtd));
     }
@@ -38,7 +43,7 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(long id, String nome, long id_categoria, long saldo) {
+    public Produto(long id, String nome, long id_categoria, BigDecimal saldo) {
         this.id = id;
         this.nome = nome;
         this.id_categoria = id_categoria;
@@ -69,18 +74,18 @@ public class Produto {
         this.id_categoria = id_categoria;
     }
 
-    public long getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(long saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
+        int hash = 7;
+        hash = 37 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
     }
 

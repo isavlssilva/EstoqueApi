@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
@@ -25,18 +25,27 @@ public class Movimento {
     private Long id;
 
     @NotNull
-    @ManyToOne
+    @JoinColumn(name = "id_produto")
     private long id_produto;
 
-    private long qtd;
+    private Double qtd;
 
     @NotNull
+    @JoinColumn(name = "data_movto")
     private Date data_movto;
+
+    private Produto produto;
 
     public Movimento() {
     }
 
-    public Movimento(Long id, long id_produto, long qtd, Date data_movto) {
+    public Movimento(Produto produto, Double qtd) {
+        this.produto = produto;
+        this.qtd = qtd;
+        this.data_movto = data_movto; 
+    }
+
+    public Movimento(Long id, long id_produto, Double qtd, Date data_movto) {
         this.id = id;
         this.id_produto = id_produto;
         this.qtd = qtd;
@@ -59,11 +68,11 @@ public class Movimento {
         this.id_produto = id_produto;
     }
 
-    public long getQtd() {
+    public Double getQtd() {
         return qtd;
     }
 
-    public void setQtd(long qtd) {
+    public void setQtd(Double qtd) {
         this.qtd = qtd;
     }
 
@@ -78,8 +87,7 @@ public class Movimento {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 89 * hash + Objects.hashCode(this.id);
-        hash = 89 * hash + (int) (this.id_produto ^ (this.id_produto >>> 32));
+        hash = 53 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -95,12 +103,6 @@ public class Movimento {
             return false;
         }
         final Movimento other = (Movimento) obj;
-        if (this.id_produto != other.id_produto) {
-            return false;
-        }
         return Objects.equals(this.id, other.id);
     }
-
-    
-    
 }
