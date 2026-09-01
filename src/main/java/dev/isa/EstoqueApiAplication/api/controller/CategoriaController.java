@@ -5,12 +5,8 @@
 package dev.isa.EstoqueApiAplication.api.controller;
 
 import dev.isa.EstoqueApiAplication.domain.model.Categoria;
-import dev.isa.EstoqueApiAplication.domain.model.Produto;
 import dev.isa.EstoqueApiAplication.domain.repository.CategoriaRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

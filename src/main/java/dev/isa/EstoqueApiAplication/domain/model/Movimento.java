@@ -1,14 +1,16 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+     * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dev.isa.EstoqueApiAplication.domain.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
@@ -25,31 +27,36 @@ public class Movimento {
     private Long id;
 
     @NotNull
-    @JoinColumn(name = "id_produto")
+    @Column(name = "id_produto")
     private long id_produto;
 
     private Double qtd;
 
     @NotNull
-    @JoinColumn(name = "data_movto")
-    private Date data_movto;
+    @Column(name = "data_movto")
+    private Date dataMovto;
 
+    @ManyToOne
+    @JoinColumn(name = "id_produto", insertable = false, updatable = false)
     private Produto produto;
+
+    //Construtor personalizado para resolver a integração com o produto
+    public Movimento(Produto produto, Double qtd) {
+        this.produto = produto;
+        this.id_produto = (produto != null) ? produto.getId() : 0L;
+        this.qtd = qtd;
+        this.dataMovto = new Date();
+    }
 
     public Movimento() {
     }
 
-    public Movimento(Produto produto, Double qtd) {
-        this.produto = produto;
-        this.qtd = qtd;
-        this.data_movto = data_movto; 
-    }
-
-    public Movimento(Long id, long id_produto, Double qtd, Date data_movto) {
+    public Movimento(Long id, long id_produto, Double qtd, Date data_movto, Produto produto) {
         this.id = id;
         this.id_produto = id_produto;
         this.qtd = qtd;
-        this.data_movto = data_movto;
+        this.dataMovto = data_movto;
+        this.produto = produto;
     }
 
     public Long getId() {
@@ -76,12 +83,20 @@ public class Movimento {
         this.qtd = qtd;
     }
 
-    public Date getData_movto() {
-        return data_movto;
+    public Date getDataMovto() {
+        return dataMovto;
     }
 
-    public void setData_movto(Date data_movto) {
-        this.data_movto = data_movto;
+    public void setDataMovto(Date dataMovto) {
+        this.dataMovto = dataMovto;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     @Override

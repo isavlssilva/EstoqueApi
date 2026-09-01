@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -35,7 +34,9 @@ public class Produto {
     @NotNull
     private BigDecimal saldo;
 
-    @Transactional
+    @NotNull
+    private BigDecimal valor_unitario;
+
     public void atualizaSaldo(Double qtd) {
         this.saldo = this.saldo.add(BigDecimal.valueOf(qtd));
     }
@@ -43,11 +44,12 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(long id, String nome, long id_categoria, BigDecimal saldo) {
+    public Produto(long id, String nome, long id_categoria, BigDecimal saldo, BigDecimal valor_unitario) {
         this.id = id;
         this.nome = nome;
         this.id_categoria = id_categoria;
         this.saldo = saldo;
+        this.valor_unitario = valor_unitario;
     }
 
     public long getId() {
@@ -80,6 +82,14 @@ public class Produto {
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
+    }
+
+    public BigDecimal getValor_unitario() {
+        return valor_unitario;
+    }
+
+    public void setValor_unitario(BigDecimal valor_unitario) {
+        this.valor_unitario = valor_unitario;
     }
 
     @Override

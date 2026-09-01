@@ -4,8 +4,12 @@
  */
 package dev.isa.EstoqueApiAplication.domain.dto;
 
+import dev.isa.EstoqueApiAplication.domain.model.Produto;
 import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  *
@@ -14,18 +18,27 @@ import jakarta.validation.constraints.NotNull;
 public class MovimentoDTO {
 
     @NotNull
+    @JoinColumn(name = "id_produto")
     Long idProduto;
 
+    @JoinColumn(name = "qtd")
+    private Double quantidade;
+
     @NotNull
-    @Column(name = "qtd")
-    Double quantidade;
+    private Date dataMovto;
+
+    @ManyToOne
+    @JoinColumn(name = "id_produto", insertable = false, updatable = false)
+    private Produto produto;
 
     public MovimentoDTO() {
     }
 
-    public MovimentoDTO(Long idProduto, Double quantidade) {
+    public MovimentoDTO(Long idProduto, Double quantidade, Date dataMovto, Produto produto) {
         this.idProduto = idProduto;
         this.quantidade = quantidade;
+        this.dataMovto = dataMovto;
+        this.produto = produto;
     }
 
     public Long getIdProduto() {
@@ -42,6 +55,22 @@ public class MovimentoDTO {
 
     public void setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public Date getDataMovto() {
+        return dataMovto;
+    }
+
+    public void setDataMovto(Date dataMovto) {
+        this.dataMovto = dataMovto;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
 }

@@ -28,8 +28,7 @@ public class MovimentoService {
 
     @Transactional
     public Movimento atualizaSaldo(Long idProduto, Double qtd) {
-        Produto produto = produtoRepository.findById(idProduto)
-                .orElseThrow(() -> new RuntimeException("Produto nao encontrado com ID: " + idProduto));
+        Produto produto = produtoRepository.findById(idProduto).orElseThrow(() -> new RuntimeException("Produto nao encontrado com ID: " + idProduto));
 
         Movimento movto = new Movimento(produto, qtd);
         movimentoRepository.save(movto);

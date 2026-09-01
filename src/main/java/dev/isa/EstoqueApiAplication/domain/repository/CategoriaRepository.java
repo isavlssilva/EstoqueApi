@@ -6,11 +6,13 @@ package dev.isa.EstoqueApiAplication.domain.repository;
 
 import dev.isa.EstoqueApiAplication.domain.model.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author digma
  */
+@Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
 }
