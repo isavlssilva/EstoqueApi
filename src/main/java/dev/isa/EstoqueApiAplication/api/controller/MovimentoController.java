@@ -5,16 +5,23 @@
 package dev.isa.EstoqueApiAplication.api.controller;
 
 import dev.isa.EstoqueApiAplication.domain.dto.MovimentoDTO;
+import dev.isa.EstoqueApiAplication.domain.dto.RelatorioPeriodoDTO;
 import dev.isa.EstoqueApiAplication.domain.model.Movimento;
 import dev.isa.EstoqueApiAplication.domain.repository.MovimentoRepository;
 import dev.isa.EstoqueApiAplication.domain.service.MovimentoService;
 import jakarta.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -37,4 +44,24 @@ public class MovimentoController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(newMovimento);
     }
-}
+
+    // listar histtorico de saidas em ordem decrescente por data
+    @GetMapping("/saidas")
+    public List<Movimento> listarSaidasDecrescene() {
+        return movtoRepository.findByQtdLessThanOrderByDataMovtoDesc(0.0);
+    }
+
+    @GetMapping("/relatorio")
+    public ResponseEntity<List<RelatorioPeriodoDTO>> obterRelatorio(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim) {
+
+        // Converte LocalDate para LocalDateTime para manter a compatibilidade com a consulta do Repositório
+        LocalDateTime inicio = (dataInicio != null) ? dataInicio.atStartOfDay() : null;
+        LocalDateTime fim = (dataFim != null) ? dataFim.atTime(23, 59, 59) : null;
+
+        List<RelatorioPeriodoDTO> relatorio = movtoService.findRelatorioEstoqueViaJPQL(inicio, fim);
+        return ResponseEntity.ok(relatorio);
+    }
+
+    }

@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -22,19 +23,28 @@ public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotBlank
     private String nome;
 
-    @NotNull
+    // Atributo cobrado pelo Hibernate no JOIN
+    @ManyToOne
     @JoinColumn(name = "id_categoria")
-    private long id_categoria;
+    private Categoria categoria;
 
-    @NotNull
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
     private BigDecimal saldo;
 
     @NotNull
+    @JoinColumn(name = "valor_unitario")
     private BigDecimal valor_unitario;
 
     public void atualizaSaldo(Double qtd) {
@@ -44,19 +54,11 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(long id, String nome, long id_categoria, BigDecimal saldo, BigDecimal valor_unitario) {
-        this.id = id;
-        this.nome = nome;
-        this.id_categoria = id_categoria;
-        this.saldo = saldo;
-        this.valor_unitario = valor_unitario;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -66,14 +68,6 @@ public class Produto {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public long getId_categoria() {
-        return id_categoria;
-    }
-
-    public void setId_categoria(long id_categoria) {
-        this.id_categoria = id_categoria;
     }
 
     public BigDecimal getSaldo() {
@@ -91,6 +85,16 @@ public class Produto {
     public void setValor_unitario(BigDecimal valor_unitario) {
         this.valor_unitario = valor_unitario;
     }
+
+    
+    public Produto(Long id, String nome, Categoria categoria, BigDecimal saldo, BigDecimal valor_unitario) {
+        this.id = id;
+        this.nome = nome;
+        this.categoria = categoria;
+        this.saldo = saldo;
+        this.valor_unitario = valor_unitario;
+    }
+
 
     @Override
     public int hashCode() {

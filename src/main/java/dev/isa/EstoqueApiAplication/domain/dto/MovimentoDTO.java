@@ -5,7 +5,6 @@
 package dev.isa.EstoqueApiAplication.domain.dto;
 
 import dev.isa.EstoqueApiAplication.domain.model.Produto;
-import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;

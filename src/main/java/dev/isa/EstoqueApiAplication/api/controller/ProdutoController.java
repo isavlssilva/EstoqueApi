@@ -6,6 +6,7 @@ package dev.isa.EstoqueApiAplication.api.controller;
 
 import dev.isa.EstoqueApiAplication.domain.model.Produto;
 import dev.isa.EstoqueApiAplication.domain.repository.ProdutoRepository;
+import dev.isa.EstoqueApiAplication.domain.service.ProdutoService;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -24,21 +25,24 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author digma
  */
-@RestController
+@RestController("/produtos")
 public class ProdutoController {
 
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private ProdutoService produtoService;
+
     // ------ Listar todos os produtos -------------
-    @GetMapping("/produto")
+    @GetMapping("/produtos")
     public List<Produto> listas() {
 
         return produtoRepository.findAll();
     }
 
     // ------ Listar todos os produtos por ID ------
-    @GetMapping("/produto/{produtoID}")
+    @GetMapping("/produtos/{produtoID}")
     public ResponseEntity<Produto> buscar(@Valid @PathVariable Long produtoID) {
 
         Optional<Produto> produto = produtoRepository.findById(produtoID);
@@ -52,27 +56,20 @@ public class ProdutoController {
 
     }
 
-    // ------ Adicionar produtos -------------
-    @PostMapping("/produto")
+    // ------ Adicionar produto -------------
+    @PostMapping("/produtos")
     @ResponseStatus(HttpStatus.CREATED)
     public Produto adicionar(@Valid @RequestBody Produto produto) {
-
-        return produtoRepository.save(produto);
-
+        return produtoService.salvar(produto);
     }
 
     // ------ Atualizar produto -------------
-    @PutMapping("/produto/{produtoID}")
-    public ResponseEntity<Produto> atualizar(@Valid @PathVariable Long produtoID, @RequestBody Produto produto) {
-
-        //Verifica se o produto ja existe
-        if (!produtoRepository.existsById(produtoID)) {
-            return ResponseEntity.notFound().build();
-
-        }
-        produto.setId(produtoID);
-        produto = produtoRepository.save(produto);
-        return ResponseEntity.ok(produto);
+    @PutMapping("/produtos/{produtoID}")
+    public ResponseEntity<Produto> atualizar(@PathVariable Long produtoID,
+            @Valid @RequestBody Produto produto) {
+        return produtoService.atualizar(produtoID, produto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }

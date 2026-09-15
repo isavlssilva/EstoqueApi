@@ -4,11 +4,15 @@
  */
 package dev.isa.EstoqueApiAplication.domain.service;
 
+import dev.isa.EstoqueApiAplication.domain.dto.MaiorSaidaDTO;
+import dev.isa.EstoqueApiAplication.domain.dto.RelatorioPeriodoDTO;
 import dev.isa.EstoqueApiAplication.domain.model.Movimento;
 import dev.isa.EstoqueApiAplication.domain.model.Produto;
 import dev.isa.EstoqueApiAplication.domain.repository.MovimentoRepository;
 import dev.isa.EstoqueApiAplication.domain.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +41,15 @@ public class MovimentoService {
         produtoRepository.save(produto);
 
         return movto;
+    }
+
+    public List<RelatorioPeriodoDTO> findRelatorioEstoqueViaJPQL(LocalDateTime dataInicio, LocalDateTime dataFim) {
+        return movimentoRepository.findRelatorioEstoqueViaJPQL(dataInicio, dataFim);
+    }
+
+    public List<MaiorSaidaDTO> findMaioresSaidasPorPeriodo(LocalDateTime dataInicio, LocalDateTime dataFim) {
+        return movimentoRepository.findMaioresSaidasPorPeriodo(dataInicio, dataFim);
+
     }
 
 }
