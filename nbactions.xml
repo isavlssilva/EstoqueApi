@@ -15,6 +15,10 @@
                 <exec.appArgs></exec.appArgs>
                 <exec.mainClass>dev.isa.EstoqueApiAplication.EstoqueApiAplicationApplication</exec.mainClass>
                 <exec.executable>java</exec.executable>
+                <Env.APP_ENVIRONMENT>postgres</Env.APP_ENVIRONMENT>
+                <Env.POSTGRES_URL>postgresql://172.16.5.14:5432/estoque</Env.POSTGRES_URL>
+                <Env.POSTGRES_USER>isa</Env.POSTGRES_USER>
+                <Env.POSTGRES_PASSWORD>senai</Env.POSTGRES_PASSWORD>
             </properties>
         </action>
         <action>

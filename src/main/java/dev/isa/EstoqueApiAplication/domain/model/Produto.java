@@ -78,11 +78,11 @@ public class Produto {
         this.saldo = saldo;
     }
 
-    public BigDecimal getValor_unitario() {
+    public BigDecimal getValorUnitario() {
         return valor_unitario;
     }
 
-    public void setValor_unitario(BigDecimal valor_unitario) {
+    public void setValorUnitario(BigDecimal valor_unitario) {
         this.valor_unitario = valor_unitario;
     }
 
